@@ -1,0 +1,27 @@
+package edgeca
+		
+
+test_csr {
+
+	csr := `-----BEGIN CERTIFICATE REQUEST-----
+MIICuDCCAaACAQAwczELMAkGA1UEBhMCVUsxGjAYBgNVBAgTEUNpdHkgb2YgRWRp
+bmJ1cmdoMRIwEAYDVQQHEwlFZGluYnVyZ2gxDzANBgNVBAoTBkRhcnZhbDEPMA0G
+A1UECxMGRGV2T3BzMRIwEAYDVQQDEwlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEB
+AQUAA4IBDwAwggEKAoIBAQCXqLlg765or58vMoPk1FkUOUU3PmK9UHdzZIze2/Wi
+5IgFFHK4e0c3xusCZczpBUpG2VNOtIu8E4KERtdGxY7Baxbs4VnfBmaX+v19yo1T
+vPZnHNTyklLZXmMuD78VR86EHpz+xerqsCuDHHmHQjkji9yg/bzKxAJZtFnh51Xa
+jijG8WROHwV73jzr6+E6FAHisGTwMJjMTB5DsWrfJHs8rn1dAuC1ioIx+Amxa3ML
+mM9Xq7/bsdJioqLt2ill57/kpDoxwZxosti2DEcuXQENrZU9wrWk/181UU2ja4Le
+IsF/m40wIwMuc1ZSq1df/qGEqx9XIHp40yd3PB/FhL7VAgMBAAGgADANBgkqhkiG
+9w0BAQsFAAOCAQEAcMXqimvEzYQNb1dwsSx7661evQwnSh/QEUU4zddXCjrQX1Bo
+7UbtZXG/dIoAJ2kmxZefBeyxLPh69RCH1ZRG+P1NsK6kQunfdfBFvWuEvlayefX1
+i3cWfo8Bh2P2uw32qW4h/XKSHnt/8lfMoSHJqFStULABufbMfmfAQvWk+C5/SW+4
+lRJXpV49My7nHu0FY7e4qCWeYlXFbWycZIhA8rpf+YwdB3ThqjF+NnMvl4/48UTk
+7lFlT2SKyg2DeqP3RXmH/Tews1VX/MjWV9wJ87wiA88RohH681U8YR2auE6qVZbq
+id1u1pQkOGSbW+CHXq6n9xOZq3d8CKko+J7Jeg==
+-----END CERTIFICATE REQUEST-----`
+
+    csr_object := crypto.x509.parse_certificate_request(csr)
+    csr_policy with input as {"csr" :csr_object}
+    
+}
