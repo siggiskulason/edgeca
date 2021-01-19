@@ -158,7 +158,7 @@ It supports two commands
 - **gencsr** generates a CSR (Certificate Signing Request) used 
 - **gencert** returns a signed certificate 
 
-### gencsr  
+### Generate CSR  
 ```
 gencsr -h
 Create a CSR
@@ -205,7 +205,7 @@ edgeca gencsr --cn localhost --csr test.csr --key test.key
 2021/01/19 17:05:55 Generated CSR for [ CN=localhost,O=ABC ]
 ```
 
-### gencsr  
+### Sign certificate  
 gencert is used to sign a CSR and return a signed certificate. If any values in the CSR don't match required values in the OPA policy, then it is rejected and the certificate not signed.
 
 Generate a Certificate. Optional filenames can be specified for the certificate and private key
