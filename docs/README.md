@@ -1,11 +1,30 @@
+
+
 # EdgeCA
+**EdgeCA** is an ephemeral, in-memory CA providing service mesh machine identities.
+It automates the management and issuance of TLS certificates. It can either run with a self-certificated Root CA certificate or use an issuing certificate retrieved using the [Venefi vCert](https://github.com/Venafi/vcert) software.
+
+It solves the many limitations of the embedded service mesh CAs by providing developers a fast, easy, and integrated source of machine identities whilst also providing security teams with the required policy and oversight.  
+
+It also enables ephemeral certificate-based authorization, which reduces the need for permanent access credentials, explicit access revocation or traditional SSH key management. 
+
+EdgeCA is currently at version 0.4.0 and is meant for evaluation only. 
+
  
+### Installing using snaps
 
-## Install and Run EdgeCA
+The easiest way to install EdgeCA on Ubuntu is to use snaps. Simply do:
 
-### Installing from Go source
+```
+snap install edgeca
+```
 
-To quickly build and run EdgeCA, do the following:
+**Note** that if you are using snaps, instead of using "edgecad" to run the server, do **"edgeca.d"**
+
+
+## Compiling edgeca
+
+To install from the Go source do:
 
 ```
 git clone https://github.com/edgeca-org/edgeca.git
@@ -14,24 +33,10 @@ go install ./cmd/edgeca
 go install ./cmd/edgecad
 ```
 
-### Installing using snaps
-
-
-The easiest way to install EdgeCA on Ubuntu is to use snaps. Simply do:
-
-```
-snap install edgeca
-```
-
-**Note** that if you are using snaps, instead of using "edgecad" to run the server, do "edgeca.d"
-
-
-
-## Using EdgeCA
-
+## Start up **edgecad**
 EdgeCA consists of two applications:
-- **edgeca** is the command line interface (CLI) application you will use to create CSRs and certificates
-- **edgecad** is a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates. It can run in three different modes.
+- edgeca is the command line interface (CLI) application you will use to create CSRs and certificates
+- edgecad is a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates. It can run in three different modes.
 
 To get help, type
 ```
