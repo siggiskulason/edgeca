@@ -1,0 +1,68 @@
+name: edgeca
+base: core18
+type: app
+adopt-info: version
+summary: An ephemeral, in-memory CA
+description: |
+  An ephemeral, in-memory CA providing service mesh machine identities
+
+grade: stable
+confinement: strict
+
+apps:
+  edgeca:
+    adapter: none
+    command: bin/edgeca
+    plugs: [home, network]
+
+  d:
+    adapter: none
+    command: bin/edgecad
+    plugs: [home, network, network-bind]
+
+parts:
+  version:
+    plugin: nil
+    source: .
+    override-pull: |
+      cd $SNAPCRAFT_PROJECT_DIR
+      VERSION=$(cat VERSION 2>/dev/null || echo 0.0.0)
+      echo $VERSION-$(date +%Y%m%d)+$(git rev-parse --short HEAD)
+      snapcraftctl set-version ${VERSION}
+
+  go:
+    plugin: nil
+    source: .
+    build-packages: [curl]
+    override-build: |
+      # use dpkg architecture to figure out our target arch
+      # note - we specifically don't use arch
+      case "$(dpkg --print-architecture)" in
+        amd64)
+          FILE_NAME=go1.14.7.linux-amd64.tar.gz 
+          #go1.15.8.linux-amd64.tar.gz 
+          ;;
+        arm64)
+          FILE_NAME=go1.14.7.linux-arm64.tar.gz 
+          ;;
+      esac 
+      curl https://dl.google.com/go/$FILE_NAME -O 
+      tar -C $SNAPCRAFT_STAGE -xf go*.tar.gz --strip-components=1
+    prime:
+      - "-*"
+
+  edgeca:
+    source: .
+    source-type: git
+    plugin: make
+    build-packages: [git]
+    after: [go]
+    override-build: |
+      cd $SNAPCRAFT_PART_SRC
+      
+      go build ./cmd/edgeca
+      go build ./cmd/edgecad
+
+      install -DT "./edgeca" "$SNAPCRAFT_PART_INSTALL/bin/edgeca"
+      install -DT "./edgecad" "$SNAPCRAFT_PART_INSTALL/bin/edgecad"
+      
