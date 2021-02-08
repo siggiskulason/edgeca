@@ -126,36 +126,36 @@ func generatePemCSR() (csrBytes []byte, privatekeyBytes []byte, err error) {
 
 	if organization == "" {
 		organization = config.GetDefaultOrganization()
-		if organization != "" {
-			subj.Organization = []string{organization}
-		}
+	}
+	if organization != "" {
+		subj.Organization = []string{organization}
 	}
 
 	if organizationalUnit == "" {
 		organizationalUnit = config.GetDefaultOrganizationalUnit()
-		if organizationalUnit != "" {
-			subj.OrganizationalUnit = []string{organizationalUnit}
-		}
+	}
+	if organizationalUnit != "" {
+		subj.OrganizationalUnit = []string{organizationalUnit}
 	}
 
 	if locality == "" {
 		locality = config.GetDefaultLocality()
-		if locality != "" {
-			subj.Locality = []string{locality}
-		}
+	}
+	if locality != "" {
+		subj.Locality = []string{locality}
 	}
 
 	if province == "" {
 		province = config.GetDefaultProvince()
-		if province != "" {
-			subj.Province = []string{province}
-		}
+	}
+	if province != "" {
+		subj.Province = []string{province}
 	}
 	if country == "" {
 		country = config.GetDefaultCountry()
-		if country != "" {
-			subj.Country = []string{country}
-		}
+	}
+	if country != "" {
+		subj.Country = []string{country}
 	}
 
 	privateRSAKey, err := certs.GenerateRSAKey()
