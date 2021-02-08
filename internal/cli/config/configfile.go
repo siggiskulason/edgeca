@@ -16,15 +16,27 @@
 package config
 
 import (
-	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
-	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
 )
 
 var configFile string
+
+type Config struct {
+	CSR struct {
+		Organization       string `yaml:"organization"`
+		OrganizationalUnit string `yaml:"organizationalUnit"`
+
+		Country  string `yaml:"country"`
+		Province string `yaml:"province"`
+		Locality string `yaml:"locality"`
+	} `yaml:"default-csr-values"`
+}
+
+var defaultConfig Config
 
 func GetDefaultTLSPort() int {
 	return 50025
@@ -53,7 +65,7 @@ func GetDefaultTLSCertDir() string {
 	return defaultTLSCertDir
 }
 
-func GetConfigDir() string {
+func InitCLIConfiguration() {
 	homeDir, _ := os.UserHomeDir()
 	configDir := homeDir + "/.edgeca"
 
@@ -61,101 +73,69 @@ func GetConfigDir() string {
 		_ = os.Mkdir(configDir, 0755)
 	} else {
 	}
-	return configDir
+
+	configFile = configDir + "/config.yaml"
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+	} else {
+
+		yamlFile, err := ioutil.ReadFile(configFile)
+		if err != nil {
+			log.Fatalln("Could not read config:", err)
+		}
+
+		err = yaml.Unmarshal(yamlFile, &defaultConfig)
+		if err != nil {
+			log.Fatalln("Could not unmarshal config:", err)
+		}
+	}
 }
 
-func InitCLIConfiguration() {
+func SetCSRConfiguration(o string, ou string, c string, p string, l string) error {
+	defaultConfig.CSR.Organization = o
+	defaultConfig.CSR.OrganizationalUnit = ou
+	defaultConfig.CSR.Country = c
+	defaultConfig.CSR.Locality = l
+	defaultConfig.CSR.Province = p
 
-	readConfiguration("configuration.yaml")
-
-}
-
-func readConfiguration(filename string) {
-	configDir := GetConfigDir()
-	configFile = configDir + "/" + filename
-	viper.SetConfigName(filename)
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(configDir)
-
-	//viper.AddConfigPath(".")
-	viper.SetDefault("default-csr-values.organization", "")
-	viper.SetDefault("default-csr-values.organizationalUnit", "")
-	viper.SetDefault("default-csr-values.country", "")
-	viper.SetDefault("default-csr-values.province", "")
-	viper.SetDefault("default-csr-values.locality", "")
-
-	//	viper.ReadInConfig()
-	viper.SafeWriteConfigAs(configFile)
-
-	err := viper.ReadInConfig()
-
+	marshalled, err := yaml.Marshal(&defaultConfig)
 	if err != nil {
-		log.Fatalln("Could not read:", err)
+		log.Fatalf("error: %v", err)
 	}
 
-}
-
-/*
-func SetConfigurationUsingYAML(yaml string) error {
-	viper.ReadConfig(bytes.NewBuffer([]byte(yaml)))
-
-	viper.WriteConfig()
-	file, err := GetConfigurationFileContents()
-	log.Println("Updated configuration:", file)
-	return err
-
-}
-*/
-func SetCSRConfiguration(o string, ou string, c string, p string, l string) error {
-
-	viper.Set("default-csr-values.organization", o)
-	viper.Set("default-csr-values.organizationalUnit", ou)
-	viper.Set("default-csr-values.country", c)
-	viper.Set("default-csr-values.province", p)
-	viper.Set("default-csr-values.locality", l)
-	/*
-		file, err := GetConfigurationFileContents()
-		if fn != "" {
-			err := ioutil.WriteFile(fn, []byte(file), 0644)
-			if err != nil {
-			}
-		}
-	*/
-	viper.WriteConfig()
+	ioutil.WriteFile(configFile, marshalled, 0644)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
 	log.Println("Updated configuration file " + configFile)
 	return nil
 }
 
 func GetConfigurationFileContents() (string, error) {
-	c := viper.AllSettings()
-	bs, err := yaml.Marshal(c)
+	marshalled, err := yaml.Marshal(&defaultConfig)
 	if err != nil {
-		err = fmt.Errorf("unable to marshal config to YAML: %w", err)
+		log.Fatalf("error: %v", err)
 	}
-	return string(bs), err
 
-}
+	return string(marshalled), err
 
-func WriteConfiguration() {
-	viper.WriteConfig()
 }
 
 func GetDefaultOrganization() string {
-	return viper.GetString("default-csr-values.organization")
+	return defaultConfig.CSR.Organization
 }
 
 func GetDefaultOrganizationalUnit() string {
-	return viper.GetString("default-csr-values.organizationalUnit")
+	return defaultConfig.CSR.OrganizationalUnit
 }
 
 func GetDefaultCountry() string {
-	return viper.GetString("default-csr-values.country")
+	return defaultConfig.CSR.Country
 }
 
 func GetDefaultLocality() string {
-	return viper.GetString("default-csr-values.province")
+	return defaultConfig.CSR.Locality
 }
 
 func GetDefaultProvince() string {
-	return viper.GetString("default-csr-values.locality")
+	return defaultConfig.CSR.Province
 }

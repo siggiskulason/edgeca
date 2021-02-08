@@ -89,7 +89,6 @@ func generateCSR() {
 		l := policyReply.GetDefaultLocality()
 		country := policyReply.GetDefaultCountry()
 		config.SetCSRConfiguration(o, ou, country, p, l)
-		config.WriteConfiguration()
 	}
 
 	// then generate the CSR
