@@ -97,7 +97,7 @@ func GenerateSelfSignedSubCACertAndKey(parentCert *x509.Certificate, parentKey *
 		CommonName: "EdgeCASubCA",
 	}
 
-	unsignedCertificate := generateX509ertificate(subject, x509.KeyUsageCertSign|x509.KeyUsageCRLSign)
+	unsignedCertificate := generateX509ertificate(subject, x509.KeyUsageCertSign|x509.KeyUsageCRLSign, true)
 
 	derRsaCert, err := signCertificateAndDEREncode(unsignedCertificate, parentCert, parentKey, rsasubCAKey)
 	if err != nil {
@@ -117,7 +117,7 @@ func GenerateSelfSignedSubCACertAndKey(parentCert *x509.Certificate, parentKey *
 func GeneratePemCertificate(subject pkix.Name, parentCert *x509.Certificate, parentKey *rsa.PrivateKey) (pemCertificate []byte, pemPrivateKey []byte, err error) {
 
 	certificate := generateX509ertificate(subject,
-		x509.KeyUsageKeyEncipherment|x509.KeyUsageDigitalSignature)
+		x509.KeyUsageKeyEncipherment|x509.KeyUsageDigitalSignature, false)
 
 	var serverKey *rsa.PrivateKey
 	serverKey, err = GenerateRSAKey()
@@ -146,7 +146,7 @@ func GenerateSelfSignedRootCACertAndKey() (certificate *x509.Certificate, pemCAC
 		CommonName: "EdgeCARootCA",
 	}
 
-	unsignedCertificate := generateX509ertificate(subject, x509.KeyUsageCertSign|x509.KeyUsageCRLSign)
+	unsignedCertificate := generateX509ertificate(subject, x509.KeyUsageCertSign|x509.KeyUsageCRLSign, true)
 
 	derRsaRootCert, err = signCertificateAndDEREncode(unsignedCertificate, unsignedCertificate, rsaRootKey, rsaRootKey)
 	if err != nil {
@@ -164,7 +164,7 @@ func GenerateSelfSignedRootCACertAndKey() (certificate *x509.Certificate, pemCAC
 	return
 }
 
-func generateX509ertificate(subject pkix.Name, keyUsage x509.KeyUsage) *x509.Certificate {
+func generateX509ertificate(subject pkix.Name, keyUsage x509.KeyUsage, isCA bool) *x509.Certificate {
 
 	notBefore := time.Now()
 	notAfter := notBefore.Add(time.Hour)
@@ -178,7 +178,7 @@ func generateX509ertificate(subject pkix.Name, keyUsage x509.KeyUsage) *x509.Cer
 		NotAfter:              notAfter,
 		BasicConstraintsValid: true,
 		KeyUsage:              keyUsage,
-		IsCA:                  true,
+		IsCA:                  isCA,
 	}
 	serialNumber.Add(&serialNumber, big.NewInt(1))
 
