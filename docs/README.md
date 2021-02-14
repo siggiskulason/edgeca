@@ -33,7 +33,7 @@ go install ./cmd/edgecad
 ```
 
 ## Using WebAssembly
-It's possible to [compile EdgeCA to a WebAssembly](./webassembly/README.md) and use that to generate CSRs. However, there are issues with using gRPC in a WebAssembly, so connecting to the server to issue certificates is currently not possible in that setup. 
+It's possible to compile EdgeCA to a WebAssembly. See the [edgeca-webassembly](https://github.com/edgeca-org/edgeca-webassembly) repository. 
 
 
 
