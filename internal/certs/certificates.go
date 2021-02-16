@@ -174,12 +174,18 @@ func generateX509ertificate(subject pkix.Name, keyUsage x509.KeyUsage, isCA bool
 	cert = x509.Certificate{
 		SerialNumber:          &serialNumber,
 		Subject:               subject,
+		DNSNames:              []string{subject.CommonName},
 		NotBefore:             notBefore,
 		NotAfter:              notAfter,
 		BasicConstraintsValid: true,
 		KeyUsage:              keyUsage,
 		IsCA:                  isCA,
 	}
+
+	//	if !isCA {
+	//		cert.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth}
+	//	}
+
 	serialNumber.Add(&serialNumber, big.NewInt(1))
 
 	return &cert

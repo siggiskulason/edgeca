@@ -32,18 +32,18 @@ parts:
 
   go:
     plugin: nil
-    source: .
+    source: snap/local
     build-packages: [curl]
     override-build: |
       # use dpkg architecture to figure out our target arch
       # note - we specifically don't use arch
       case "$(dpkg --print-architecture)" in
         amd64)
-          FILE_NAME=go1.14.7.linux-amd64.tar.gz 
+          FILE_NAME=go1.16.linux-amd64.tar.gz 
           #go1.15.8.linux-amd64.tar.gz 
           ;;
         arm64)
-          FILE_NAME=go1.14.7.linux-arm64.tar.gz 
+          FILE_NAME=go1.16.linux-arm64.tar.gz 
           ;;
       esac 
       curl https://dl.google.com/go/$FILE_NAME -O 
@@ -52,12 +52,11 @@ parts:
       - "-*"
 
   edgeca:
-    source: .
-    source-type: git
-    plugin: make
-    build-packages: [git]
+    source: . 
+    plugin: make 
     after: [go]
     override-build: |
+      export PATH="$SNAPCRAFT_STAGE/go/bin:$GOPATH/bin:$PATH"
       cd $SNAPCRAFT_PART_SRC
       
       go build ./cmd/edgeca
