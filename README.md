@@ -16,4 +16,4 @@ snap install edgeca
 
 EdgeCA is open source, written in Go, and licenced with the Apache 2.0 Licence
 
-See these [instructions](docs) on how to install and run EdgeCA
+For more information see this [Youtube video](https://youtu.be/vOihT1IbKaE) with a walkthrough and read these [instructions](docs) on how to install and run EdgeCA. 
