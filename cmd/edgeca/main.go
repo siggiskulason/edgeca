@@ -16,8 +16,8 @@
 package main
 
 import (
-	"github.com/edgeca-org/edgeca/internal/cli/cmd"
-	"github.com/edgeca-org/edgeca/internal/cli/config"
+	"github.com/edgesec-org/edgeca/internal/cli/cmd"
+	"github.com/edgesec-org/edgeca/internal/cli/config"
 )
 
 func main() {

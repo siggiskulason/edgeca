@@ -23,11 +23,11 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/edgeca-org/edgeca/internal/certs"
-	"github.com/edgeca-org/edgeca/internal/daemon/state"
+	"github.com/edgesec-org/edgeca/internal/certs"
+	"github.com/edgesec-org/edgeca/internal/daemon/state"
 
-	"github.com/edgeca-org/edgeca/internal/daemon/policies"
-	internalgrpc "github.com/edgeca-org/edgeca/internal/grpc"
+	"github.com/edgesec-org/edgeca/internal/daemon/policies"
+	internalgrpc "github.com/edgesec-org/edgeca/internal/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

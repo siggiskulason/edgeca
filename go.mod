@@ -1,4 +1,4 @@
-module github.com/edgeca-org/edgeca
+module github.com/edgesec-org/edgeca
 
 go 1.16
 

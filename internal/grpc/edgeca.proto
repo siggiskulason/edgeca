@@ -15,7 +15,7 @@
  
  syntax = "proto3";
 
-option go_package = "github.com/edgeca-org/edgeca/grpc";
+option go_package = "github.com/edgesec-org/edgeca/grpc";
 
 package edgeca;
 

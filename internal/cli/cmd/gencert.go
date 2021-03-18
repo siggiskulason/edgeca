@@ -24,9 +24,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/edgeca-org/edgeca/internal/certs"
-	"github.com/edgeca-org/edgeca/internal/cli/config"
-	internalgrpc "github.com/edgeca-org/edgeca/internal/grpc"
+	"github.com/edgesec-org/edgeca/internal/certs"
+	"github.com/edgesec-org/edgeca/internal/cli/config"
+	internalgrpc "github.com/edgesec-org/edgeca/internal/grpc"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

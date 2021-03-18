@@ -24,9 +24,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/edgeca-org/edgeca/internal/certs"
-	"github.com/edgeca-org/edgeca/internal/daemon/policies"
-	"github.com/edgeca-org/edgeca/internal/daemon/tpp"
+	"github.com/edgesec-org/edgeca/internal/certs"
+	"github.com/edgesec-org/edgeca/internal/daemon/policies"
+	"github.com/edgesec-org/edgeca/internal/daemon/tpp"
 )
 
 type state struct {

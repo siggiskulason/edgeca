@@ -22,7 +22,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/edgeca-org/edgeca/internal/daemon/tpp"
+	"github.com/edgesec-org/edgeca/internal/daemon/tpp"
 	"github.com/open-policy-agent/opa/rego"
 )
 

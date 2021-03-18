@@ -16,7 +16,7 @@
 package main
 
 import (
-	"github.com/edgeca-org/edgeca/internal/daemon/cmd"
+	"github.com/edgesec-org/edgeca/internal/daemon/cmd"
 )
 
 func main() {

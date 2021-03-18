@@ -20,11 +20,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/edgeca-org/edgeca"
-	"github.com/edgeca-org/edgeca/internal/daemon"
-	"github.com/edgeca-org/edgeca/internal/daemon/config"
-	"github.com/edgeca-org/edgeca/internal/daemon/policies"
-	"github.com/edgeca-org/edgeca/internal/daemon/state"
+	"github.com/edgesec-org/edgeca"
+	"github.com/edgesec-org/edgeca/internal/daemon"
+	"github.com/edgesec-org/edgeca/internal/daemon/config"
+	"github.com/edgesec-org/edgeca/internal/daemon/policies"
+	"github.com/edgesec-org/edgeca/internal/daemon/state"
 	"github.com/spf13/cobra"
 )
 

@@ -26,14 +26,14 @@ See the [EdgeCA Snap install](../snap) readme file for more information. **Note*
 To install from the Go source do:
 
 ```
-git clone https://github.com/edgeca-org/edgeca.git
+git clone https://github.com/edgesec-org/edgeca.git
 cd edgeca
 go install ./cmd/edgeca
 go install ./cmd/edgecad
 ```
 
 ## Using WebAssembly
-It's possible to compile EdgeCA to a WebAssembly. See the [edgeca-webassembly](https://github.com/edgeca-org/edgeca-webassembly) repository. 
+It's possible to compile EdgeCA to a WebAssembly. See the [edgeca-webassembly](https://github.com/edgesec-org/edgeca-webassembly) repository. 
 
 
 
