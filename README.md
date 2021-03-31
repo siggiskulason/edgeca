@@ -8,12 +8,16 @@ It also enables ephemeral certificate-based authorization, which reduces the nee
 
 EdgeCA is currently at version 0.4.0 and is meant for evaluation only. 
 
+
+EdgeCA is open source, written in Go, and licenced with the Apache 2.0 Licence
+
+For more information see this [Youtube video](https://youtu.be/vOihT1IbKaE) with a walkthrough and read these [instructions](docs) on how to install and run EdgeCA. 
+
 The easiest way to install the application is to use [snaps](./snap)
 
 ```
 snap install edgeca
 ```
 
-EdgeCA is open source, written in Go, and licenced with the Apache 2.0 Licence
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/edgeca)
 
-For more information see this [Youtube video](https://youtu.be/vOihT1IbKaE) with a walkthrough and read these [instructions](docs) on how to install and run EdgeCA. 
