@@ -3,7 +3,7 @@
 
 This early release is meant for evaluation only. It consists of two applications:
 - **edgeca** is the command line interface (CLI) application you will use to create CSRs and certificates
-- **edgecad** is a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates
+- **edgecad** is a background service which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates
 
 The two parts communicate in a secure way using gRPC.
 
@@ -13,17 +13,32 @@ To install the snap simply do
 snap install edgeca
 ```
 
-This is an early version of the snap. It will be updated for the server to run automatically and be accessible with "snap set" commands. However, at this stage, the two applications are installed as
-- **edgeca** and
-- **edgeca.d** 
+This is an early version of the snap. The server part (edgecad) starts up as a background daemon by default and
+does not need to be manually launched.
 
-To run EdgeCA, open a terminal window and run 
+edgecad starts up in the default self-signed mode. To use TPP, set the following:
 
 ```
-edgeca.d
+$ sudo snap set edgeca tpp.token="your token" 
+$ sudo snap set edgeca tpp.zone="your zone"
+$ sudo snap set edgeca tpp.url="your tpp url"
 ```
 
-With any choosen parameters as per the standard EdgeCA [instructions](../docs) and then run the client with
+once those three have been set, edgecad will establish a TPP connection
+
+To view the logs do
+
+```
+snap logs -f edgeca.edgecad 
+```
+
+The policy can likewise be set with
+
+```
+$ sudo snap set edgeca policy="policy filename" 
+```
+
+The client is run using
 
 ```
 edgeca

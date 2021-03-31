@@ -15,4 +15,4 @@
 
 package edgeca
 
-var Version string = "0.4.2"
+var Version string = "0.4.3"
