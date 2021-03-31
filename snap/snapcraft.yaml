@@ -12,7 +12,7 @@ confinement: strict
 apps:
   edgeca:
     adapter: none
-    command: bin/edgeca
+    command: bin/edgeca-wrapper.sh
     plugs: [home, network]
 
   edgecad:
@@ -42,7 +42,6 @@ parts:
     plugin: make 
     after: [go-build-helper]
     build-packages: [git]
-
     override-build: |
       export PATH="$SNAPCRAFT_STAGE/go/bin:$GOPATH/bin:$PATH"
       cd $SNAPCRAFT_PART_SRC
