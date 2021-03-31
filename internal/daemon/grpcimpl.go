@@ -66,7 +66,7 @@ func (s *server) GenerateCertificate(ctx context.Context, request *internalgrpc.
 	}
 	subject := certs.GetSubjectFromCSR(csr)
 	pemCertificate, pemPrivateKey, err := certs.GeneratePemCertificate(subject, state.GetSubCACert(), state.GetSubCAKey())
-	return &internalgrpc.CertificateReply{Certificate: string(state.GetSubCAPEMCert()) + string(pemCertificate), PrivateKey: string(pemPrivateKey)}, err
+	return &internalgrpc.CertificateReply{Certificate: /*string(state.GetSubCAPEMCert()) +*/ string(pemCertificate), PrivateKey: string(pemPrivateKey)}, err
 }
 
 //StartGrpcServer starts up the gRPC server

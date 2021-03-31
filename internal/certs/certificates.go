@@ -167,7 +167,7 @@ func GenerateSelfSignedRootCACertAndKey() (certificate *x509.Certificate, pemCAC
 func generateX509ertificate(subject pkix.Name, keyUsage x509.KeyUsage, isCA bool) *x509.Certificate {
 
 	notBefore := time.Now()
-	notAfter := notBefore.Add(time.Hour)
+	notAfter := notBefore.AddDate(1, 0, 0)
 
 	var cert x509.Certificate
 

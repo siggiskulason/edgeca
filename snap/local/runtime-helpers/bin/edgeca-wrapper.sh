@@ -1,5 +1,10 @@
 #!/bin/bash -e
  
+EDGECA_PARAM=""
 
-$SNAP/bin/edgeca $@ -d $SNAP_DATA
+if [ "$#" -gt 1 ]; then
+    EDGECA_PARAM="-d $SNAP_DATA"
+fi
+
+$SNAP/bin/edgeca $@ $EDGECA_PARAM
 
