@@ -45,7 +45,8 @@ parts:
     override-build: |
       export PATH="$SNAPCRAFT_STAGE/go/bin:$GOPATH/bin:$PATH"
       cd $SNAPCRAFT_PART_SRC
-      
+      export GO111MODULE=on # Enable module mode
+      go get ./...   
       go build ./cmd/edgeca
       go build ./cmd/edgecad
 
