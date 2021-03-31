@@ -18,7 +18,7 @@ The easiest way to install EdgeCA on Ubuntu is to use snaps. Simply do:
 ```
 snap install edgeca
 ```
-See the [EdgeCA Snap install](../snap) readme file for more information. **Note** that if you are using snaps, instead of using "edgecad" to run the server, do **"edgeca.d"**
+See the [EdgeCA Snap install](../snap) readme file for more information. **Note** that if you are using snaps, then **edgecad** runs as a background service and you need not start it manually.
 
 
 ## Compiling edgeca
