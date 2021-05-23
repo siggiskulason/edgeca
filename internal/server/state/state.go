@@ -25,8 +25,8 @@ import (
 	"os"
 
 	"github.com/edgesec-org/edgeca/internal/certs"
-	"github.com/edgesec-org/edgeca/internal/daemon/policies"
-	"github.com/edgesec-org/edgeca/internal/daemon/tpp"
+	"github.com/edgesec-org/edgeca/internal/server/policies"
+	"github.com/edgesec-org/edgeca/internal/server/tpp"
 )
 
 type state struct {

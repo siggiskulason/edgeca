@@ -21,7 +21,7 @@ if [[ ! -z "$tppurl" ]] && [[ ! -z "$tppzone" ]] && [[ ! -z "$tpptoken" ]]; then
     TPP="--url $tppurl --zone $tppzone --token $tpptoken" 
 fi
 
-echo "$SNAP/bin/edgecad -d $SNAP_DATA $POLICY_OPT $TPP"
+echo "$SNAP/bin/edgeca server -d $SNAP_DATA $POLICY_OPT $TPP"
 
-$SNAP/bin/edgecad -d $SNAP_DATA $POLICY_OPT $TPP
+$SNAP/bin/edgeca server -d $SNAP_DATA $POLICY_OPT $TPP
 

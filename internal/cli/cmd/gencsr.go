@@ -33,7 +33,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var commonName, organization, organizationalUnit, locality, province, country, keyFileName, csrFileName, tlsCertDir, csrHostName string
+var commonName, organization, organizationalUnit, locality, province, country, keyFileName, csrFileName, csrTlsCertDir, csrHostName string
 var refresh bool
 var csrTLSPort int
 
@@ -59,8 +59,8 @@ func init() {
 	gencsr.Flags().StringVarP(&keyFileName, "key", "", "", "Output file for private key used to sign CSR")
 	gencsr.Flags().StringVarP(&csrFileName, "csr", "", "", "Output file for CSR")
 	gencsr.Flags().BoolVarP(&refresh, "refresh", "r", false, "Refresh the list of default values from the current policy")
-	tlsCertDir = config.GetDefaultTLSCertDir()
-	gencsr.Flags().StringVarP(&tlsCertDir, "tls-certs", "d", tlsCertDir, "Location of certs for gRPC authentication")
+	csrTlsCertDir = config.GetDefaultTLSCertDir()
+	gencsr.Flags().StringVarP(&csrTlsCertDir, "tls-certs", "d", csrTlsCertDir, "Location of certs for gRPC authentication")
 	csrHostName = config.GetDefaultTLSHost()
 	gencsr.Flags().StringVarP(&csrHostName, "server", "s", csrHostName, "EdgeCA gRPC server name")
 	csrTLSPort = config.GetDefaultTLSPort()
@@ -73,7 +73,7 @@ func generateCSR() {
 	if refresh {
 		log.Println("Connecting to edgeca server at " + csrHostName + " to refresh policy information")
 
-		conn, c := grpcConnect(tlsCertDir, csrHostName, csrTLSPort)
+		conn, c := grpcConnect(csrTlsCertDir, csrHostName, csrTLSPort)
 		defer conn.Close()
 		ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 		defer cancel()

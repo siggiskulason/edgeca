@@ -4,7 +4,7 @@ type: app
 adopt-info: version
 summary: An ephemeral, in-memory CA
 description: |
-  An ephemeral, in-memory CA providing service mesh machine identities
+  An ephemeral, in-memory CA providing service mesh machine identities. 
 
 grade: stable
 confinement: strict
@@ -15,7 +15,7 @@ apps:
     command: bin/edgeca-wrapper.sh
     plugs: [home, network]
 
-  edgecad:
+  edgeca-server:
     adapter: none
     daemon: simple
     command: bin/edgecad-wrapper.sh
@@ -47,11 +47,9 @@ parts:
       cd $SNAPCRAFT_PART_SRC
       export GO111MODULE=on # Enable module mode
       go get ./...   
-      go build ./cmd/edgeca
-      go build ./cmd/edgecad
+      go build ./cmd/edgeca 
 
-      install -DT "./edgeca" "$SNAPCRAFT_PART_INSTALL/bin/edgeca"
-      install -DT "./edgecad" "$SNAPCRAFT_PART_INSTALL/bin/edgecad"
+      install -DT "./edgeca" "$SNAPCRAFT_PART_INSTALL/bin/edgeca" 
       
   config-common:
       plugin: dump
