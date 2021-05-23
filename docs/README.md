@@ -8,7 +8,7 @@ It solves the many limitations of the embedded service mesh CAs by providing dev
 
 It also enables ephemeral certificate-based authorization, which reduces the need for permanent access credentials, explicit access revocation or traditional SSH key management. 
 
-EdgeCA is currently at version 0.4.0 and is meant for evaluation only. 
+EdgeCA is meant for evaluation only. 
 
  
 ### Installing using snaps
@@ -29,7 +29,6 @@ To install from the Go source do:
 git clone https://github.com/edgesec-org/edgeca.git
 cd edgeca
 go install ./cmd/edgeca
-go install ./cmd/edgecad
 ```
 
 ## Using WebAssembly
@@ -38,13 +37,11 @@ It's possible to compile EdgeCA to a WebAssembly. See the [edgeca-webassembly](h
 
 
 ## Start up **edgecad**
-EdgeCA consists of two applications:
-- edgeca is the command line interface (CLI) application you will use to create CSRs and certificates
-- edgecad is a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates. It can run in three different modes.
+**edgeca** is the command line interface (CLI) application you will use to create CSRs and certificates. It can generate CSRs independently, but to sign certificates, it requires an EdgeCA server to perform the certificate signing. to start EdgeCA in server mode, run **edgeca server**to start up a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates. Note that the snap does this automatically, running a server as a background daemon process. 
 
 To get help, type
 ```
-edgecad -h
+edgeca server -h
 ```
 
 The output will show:
@@ -98,7 +95,7 @@ Flags:
 Start by running edgeca in a terminal window. The simplest setup is to use a self-signed certificate. All you need then to do is to type
 
 ```
-edgecad
+edgeca server
 ```
 
 EdgeCA will then start up 
@@ -139,7 +136,7 @@ EdgeCA will transform Venafi TPP policies into OPA policies so if you are using 
 To use a manually generated policy file, specify it using the **-p** parameter 
 
 ```
-edgecad -p opa/opa.rego
+edgeca server -p opa/opa.rego
 ```
 
 ### Mode 3: Use TPP
@@ -148,7 +145,7 @@ In this mode, you need to provide a TPP access token when starting up edgecad.
 To use, specify the TPP URL, Zone and Access token. EdgeCA will then get an issuing certificate and policy information from the TPP server. 
 
 ```
-./edgecad --url "..." --zone "..." --token "..." 
+./edgeca server --url "..." --zone "..." --token "..." 
 ```
 
 ## Use the EdgeCA CLI
