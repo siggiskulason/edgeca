@@ -22,7 +22,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/edgesec-org/edgeca/internal/daemon/tpp"
+	"github.com/edgesec-org/edgeca/internal/server/tpp"
 	"github.com/open-policy-agent/opa/rego"
 )
 
@@ -98,12 +98,13 @@ func LoadPolicy(policyFilename string) {
 
 // CheckPolicy checks the policy
 func CheckPolicy(csr string) error {
-	log.Println("Applying policy from ", filename)
 
 	if policy == "" {
 		log.Println("No policy file was specified")
 		return nil
 	}
+
+	log.Println("Applying policy from ", filename)
 
 	// create the JSON object with the CSR
 	ctx := context.TODO()

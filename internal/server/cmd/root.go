@@ -21,10 +21,10 @@ import (
 	"os"
 
 	"github.com/edgesec-org/edgeca"
-	"github.com/edgesec-org/edgeca/internal/daemon"
-	"github.com/edgesec-org/edgeca/internal/daemon/config"
-	"github.com/edgesec-org/edgeca/internal/daemon/policies"
-	"github.com/edgesec-org/edgeca/internal/daemon/state"
+	"github.com/edgesec-org/edgeca/internal/server"
+	"github.com/edgesec-org/edgeca/internal/server/config"
+	"github.com/edgesec-org/edgeca/internal/server/policies"
+	"github.com/edgesec-org/edgeca/internal/server/state"
 	"github.com/spf13/cobra"
 )
 
@@ -88,7 +88,7 @@ func init() {
 
 // Execute the commands
 func grpcMain() {
-	fmt.Println("EdgeCA daemon " + edgeca.Version + " starting up")
+	fmt.Println("EdgeCA server " + edgeca.Version + " starting up")
 	log.SetPrefix("edgeCA: ")
 
 	if tppToken != "" || tppURL != "" || tppZone != "" {
@@ -100,7 +100,7 @@ func grpcMain() {
 		mode1SelfCert()
 	}
 
-	daemon.StartGrpcServer(tlsPort)
+	server.StartGrpcServer(tlsPort)
 
 }
 

@@ -13,7 +13,7 @@
  *
  *******************************************************************************/
 
-package daemon
+package server
 
 import (
 	"context"
@@ -24,10 +24,10 @@ import (
 	"strconv"
 
 	"github.com/edgesec-org/edgeca/internal/certs"
-	"github.com/edgesec-org/edgeca/internal/daemon/state"
+	"github.com/edgesec-org/edgeca/internal/server/state"
 
-	"github.com/edgesec-org/edgeca/internal/daemon/policies"
 	internalgrpc "github.com/edgesec-org/edgeca/internal/grpc"
+	"github.com/edgesec-org/edgeca/internal/server/policies"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

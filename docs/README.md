@@ -103,7 +103,7 @@ edgecad
 
 EdgeCA will then start up 
 ```
-EdgeCA daemon 0.3.0 starting up
+EdgeCA server 0.3.0 starting up
 edgeCA: 2021/01/19 16:24:16 Mode 1 (Using self-signed issuing certificate and key)
 edgeCA: 2021/01/19 16:24:16 Generating self signed Root CA Certificate
 edgeCA: 2021/01/19 16:24:16 Generating self signed Sub CA Certificate
