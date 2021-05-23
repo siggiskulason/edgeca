@@ -36,7 +36,7 @@ It's possible to compile EdgeCA to a WebAssembly. See the [edgeca-webassembly](h
 
 
 
-## Start up **edgecad**
+## Start up **EdgeCA server**
 **edgeca** is the command line interface (CLI) application you will use to create CSRs and certificates. It can generate CSRs independently, but to sign certificates, it requires an EdgeCA server to perform the certificate signing. to start EdgeCA in server mode, run **edgeca server**to start up a server which edgeca connects to. It is the core Ephemeral CA engine and signs the certificates. Note that the snap does this automatically, running a server as a background daemon process. 
 
 To get help, type
