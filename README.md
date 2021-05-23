@@ -6,12 +6,12 @@ It solves the many limitations of the embedded service mesh CAs by providing dev
 
 It also enables ephemeral certificate-based authorization, which reduces the need for permanent access credentials, explicit access revocation or traditional SSH key management. 
 
-EdgeCA is currently at version 0.4.0 and is meant for evaluation only. 
+EdgeCA is currently meant for evaluation only and all feedback is welcome.
 
 
 EdgeCA is open source, written in Go, and licenced with the Apache 2.0 Licence
 
-For more information see this [Youtube video](https://youtu.be/vOihT1IbKaE) with a walkthrough and read these [instructions](docs) on how to install and run EdgeCA. 
+For more information read these [instructions](docs) on how to install and run EdgeCA. 
 
 The easiest way to install the application is to use [snaps](./snap)
 
