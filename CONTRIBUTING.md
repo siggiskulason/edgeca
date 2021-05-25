@@ -1,7 +1,7 @@
 # Contributing to EdgeCA
 
 The following is a set of guidelines for contributing to EdgeCA and its libraries, which are
-hosted in the [EdgeSec OÜ Organization](https://github.com/edgesec-ou) on GitHub.
+hosted in the [EdgeSec OÜ Organization](https://github.com/edgesec-org) on GitHub.
 
 This project adheres to the [Contributor Covenant 1.2](http://contributor-covenant.org/version/1/2/0).
 By participating, you are expected to uphold this code.
