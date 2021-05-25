@@ -19,5 +19,5 @@ snap install edgeca
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/edgeca)
 
 # Contributing to EdgeCA
-**EdgecA** is an open source project currently in early development stages. We welcome and appreciate all contributions from the developer community.
+**EdgeCA** is an open source project currently in early development stages. We welcome and appreciate all contributions from the developer community.
 Please read our documentation on [contributing](CONTRIBUTING.md) for more information. To report a problem or share an idea, create an [Issue](https://github.com/edgesec-org/edgeca/issues) and then use [Pull Requests](https://github.com/edgesec-org/edgeca/pulls) to contribute bug fixes or proposed enhancements. Got questions? [Join us on Slack](https://join.slack.com/t/edgesec/signup)!
