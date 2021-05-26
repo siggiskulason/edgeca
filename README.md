@@ -20,7 +20,7 @@ snap install edgeca
 
 ## Contributing to EdgeCA
 **EdgeCA** is an open source project currently in early development stages. We welcome and appreciate all contributions from the developer community.
-Please read our documentation on [contributing](CONTRIBUTING.md) for more information. To report a problem or share an idea, create an [Issue](https://github.com/edgesec-org/edgeca/issues) and then use [Pull Requests](https://github.com/edgesec-org/edgeca/pulls) to contribute bug fixes or proposed enhancements. Got questions? [Join us on Slack](https://join.slack.com/t/edgesec/signup)!
+Please read our documentation on [contributing](https://github.com/edgesec-org/edgeca/blob/main/CONTRIBUTING.md) for more information. To report a problem or share an idea, create an [Issue](https://github.com/edgesec-org/edgeca/issues) and then use [Pull Requests](https://github.com/edgesec-org/edgeca/pulls) to contribute bug fixes or proposed enhancements. Got questions? [Join us on Slack](https://join.slack.com/t/edgesec/signup)!
 
 ## License
 Copyright 2020-2021 © [EdgeSec OÜ](https://edgesec.org). All rights reserved.
