@@ -29,6 +29,7 @@ import (
 
 var policy, defaultConfig, tppToken, tppURL, tppZone, caCert, caKey, serverTlsCertDir string
 var tlsPort int
+var useSDS bool
 
 func init() {
 
@@ -85,6 +86,8 @@ func init() {
 	tlsPort = config.GetDefaultTLSPort()
 	serverCmd.Flags().IntVarP(&tlsPort, "port", "", tlsPort, "Port number to use for this server")
 
+	serverCmd.Flags().BoolVarP(&useSDS, "sds", "", false, "Enable Envoy SDS support (development use only)")
+
 }
 
 // Execute the commands
@@ -101,7 +104,7 @@ func startEdgeCAServer() {
 		mode1SelfCert()
 	}
 
-	server.StartGrpcServer(tlsPort)
+	server.StartGrpcServer(tlsPort, useSDS)
 
 }
 

@@ -70,7 +70,7 @@ func (s *server) GenerateCertificate(ctx context.Context, request *internalgrpc.
 }
 
 //StartGrpcServer starts up the gRPC server
-func StartGrpcServer(port int) {
+func StartGrpcServer(port int, useSDS bool) {
 
 	certPool := x509.NewCertPool()
 	cacert := state.GetRootCACert()
@@ -99,6 +99,11 @@ func StartGrpcServer(port int) {
 	s := grpc.NewServer(
 		grpc.Creds(creds),
 	)
+
+	if useSDS {
+		log.Println("Enabling SDS support")
+		StartSDSServer(0, s)
+	}
 
 	log.Println("Starting gRPC CA server on port", port)
 
