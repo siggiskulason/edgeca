@@ -30,6 +30,13 @@ The example is set up on one host with two docker containers which share an user
 cd example02
 ```
 
+Update the two envoy configuration files, changing the IP address in 
+
+```
+address: 192.168.1.209
+```
+to your own IP address. This is the address used to connect to edgeca
+
 
 1. Start EdgeCA with SDS mode enabled
 
