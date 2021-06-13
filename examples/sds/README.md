@@ -15,11 +15,11 @@ Scenario:
 
 2) `envoy-local` is listening for http requests on port 20000. It uses mTLS authentication to forward them to port 10000 on `envoy-remote`.
 
-3) `envoy-remote` accepts mTLS connections on port 20000 and forwards the requests using TLS to a remote website (here set to edgeca.org)
+3) `envoy-remote` accepts mTLS connections on port 10000 and forwards the requests using TLS to a remote website (here set to edgeca.org)
 
 so the flow is
 
-user ->  http connection on port 20000 -> envoy ->  mTLS with client/server cert on port 20000 -> envoy -> https -> edgeca.org:443
+user ->  http connection on port 20000 -> envoy ->  mTLS with client/server cert on port 10000 -> envoy -> https -> edgeca.org:443
 
 envoy-local is provided with a client certificate and envoy-remote with a server certificate for the mTLS authentication.
 
