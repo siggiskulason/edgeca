@@ -1,8 +1,81 @@
-## Envoy Secret Discovery Service (SDS) support
+# Envoy Secret Discovery Service (SDS) support
 
-EdgeCA has POC support for SDS. This is currently under development and can be enabled by running with the "--sds" flag.
+EdgeCA has POC support for [Envoy SDS](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret). 
+
+This is currently under development and can be enabled by running with the "--sds" flag.
+
+
+## Example 02: mTLS connection between two Envoy instances
+
+In this example we have two instances of Envoy running on two different computers (which could be in two different physical locations).
+
+Scenario:
+
+1) User uses from curl or browser to connect to http://localhost:20000
+
+2) `envoy-local` is listening for http requests on port 20000. It uses mTLS authentication to forward them to port 10000 on `envoy-remote`.
+
+3) `envoy-remote` accepts mTLS connections on port 20000 and forwards the requests using TLS to a remote website (here set to edgeca.org)
+
+so the flow is
+
+user ->  http connection on port 20000 -> envoy ->  mTLS with client/server cert on port 20000 -> envoy -> https -> edgeca.org:443
+
+envoy-local is provided with a client certificate and envoy-remote with a server certificate for the mTLS authentication.
+
+
+The example is set up on one host with two docker containers which share an user-defined network. To run use the `example02` directory contents:
+
+```
+cd example02
+```
+
+
+1. Start EdgeCA with SDS mode enabled
+
+```
+./run-edgeca.sh
+```
+
+2. In a separate terminal start the two envoy instances using docker:
+
+```
+run-envoy-docker.sh
+```
+
+
+3. Test the connection
+
+```
+curl http://localhost:20000
+```
+
+The expected output is the webpage at https://edgeca.org, which is fetched by the remote envoy instance and sent to the local envoy over the mTLS connection, where it is available using `http` on port 20000.
+
+
+You can also connect to the remote envoy to see the certificate info for the mTLS connection:
+
+```
+openssl s_client --connect localhost:10000
+```
+
+4. To view the envoy logs you can use
+
+
+ ```
+ docker logs local-envoy
+ docker logs remote-envoy
+ ```
+
+
+
+## Example 01: Simple single-node setup
 
 To run this example, do the following
+
+```
+cd example01
+```
 
 1. Start EdgeCA with SDS mode enabled
 
@@ -20,11 +93,6 @@ If you have installed it using docker, then run
 ./run-envoy-docker.sh
 ```
 
-if you have installed is as a native application (for instance using brew on MacOS) use
-
-```
-./run-envoy.sh
-```
 
 This will start up Envoy with a the configuration from `custom-config/edgeca-envoy.yaml`. This configuration
 - creates a listener on port 10000

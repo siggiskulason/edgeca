@@ -24,10 +24,10 @@ import (
 	"strconv"
 
 	"github.com/edgesec-org/edgeca/internal/certs"
-	"github.com/edgesec-org/edgeca/internal/server/state"
-
 	internalgrpc "github.com/edgesec-org/edgeca/internal/grpc"
 	"github.com/edgesec-org/edgeca/internal/server/policies"
+	internalsds "github.com/edgesec-org/edgeca/internal/server/sds"
+	"github.com/edgesec-org/edgeca/internal/server/state"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -102,7 +102,7 @@ func StartGrpcServer(port int, useSDS bool) {
 
 	if useSDS {
 		log.Println("Enabling SDS support")
-		StartSDSServer(0, s)
+		internalsds.InjectSDSServer(s)
 	}
 
 	log.Println("Starting gRPC CA server on port", port)
