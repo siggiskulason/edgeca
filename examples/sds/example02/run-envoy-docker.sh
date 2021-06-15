@@ -1,5 +1,6 @@
 docker stop envoy-remote
 docker stop envoy-local
+docker stop http-echo
 
 echo "Copying gRPC client certificates to a shared custom config volume"
 cp ~/.edgeca/certs/edgeca-client-cert.pem ./custom-config/clientcert.pem
@@ -27,11 +28,16 @@ sudo docker run --rm -dit --name envoy-local --network envoy-edgeca-poc-net \
         -c /custom-config/envoy-local.yaml
 
 
+sudo docker run --rm -dit --name http-echo --network envoy-edgeca-poc-net \
+      -p 8080:8080 -p 8443:8443 \
+      mendhak/http-https-echo:18
+
+
 echo "connect remote envoy to network"
 docker network connect bridge envoy-remote
 
 echo "local and remote envoy started."
 
-# To test, use curl http://localhost:20000
-# or curl --verbose --cacert ~/.edgeca/certs/CA.pem https://localhost:10000 
-# openssl s_client --connect localhost:10000D
+# To test, use 
+# - curl http://localhost:20000 
+# - openssl s_client --connect localhost:10000D

@@ -26,7 +26,7 @@ static_resources:
                   - match:
                       prefix: "/"
                     route:
-                      host_rewrite_literal: edgeca.org
+                      host_rewrite_literal: http-echo
                       cluster: service_envoyproxy_io
           transport_socket:
             name: envoy.transport_sockets.tls
@@ -55,12 +55,8 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: edgeca.org
-                      port_value: 443
-      transport_socket:
-        name: envoy.transport_sockets.tls
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+                      address: http-echo
+                      port_value: 8080
     - name: sds_server_mtls
       typed_extension_protocol_options:
         envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
