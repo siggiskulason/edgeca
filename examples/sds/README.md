@@ -11,18 +11,18 @@ In this example we have two instances of Envoy running on two different computer
 
 Scenario:
 
-1) User uses from curl or browser to connect to http://localhost:20000
+1) User uses curl or browser to connect to http://localhost:20000
 
 2) `envoy-local` is listening for http requests on port 20000. It uses mTLS authentication to forward them to port 10000 on `envoy-remote`.
 
-3) `envoy-remote` accepts mTLS connections on port 20000 and forwards the requests using TLS to a remote website (here set to edgeca.org)
+3) `envoy-remote` forwards the request using http to an echo service running in a different docker container, on port 8080
 
 so the flow is
 
-user ->  http connection on port 20000 -> envoy ->  mTLS with client/server cert on port 20000 -> envoy -> https -> edgeca.org:443
+ http ->  envoy-local:20000 ->  mTLS -> envoy-remote:10000 -> http-echo:8080
+
 
 envoy-local is provided with a client certificate and envoy-remote with a server certificate for the mTLS authentication.
-
 
 The example is set up on one host with two docker containers which share an user-defined network. To run use the `example02` directory contents:
 
