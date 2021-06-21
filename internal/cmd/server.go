@@ -20,23 +20,23 @@ import (
 	"log"
 
 	"github.com/edgesec-org/edgeca"
-	"github.com/edgesec-org/edgeca/internal/cli/config"
-	"github.com/edgesec-org/edgeca/internal/server"
-	"github.com/edgesec-org/edgeca/internal/server/policies"
-	"github.com/edgesec-org/edgeca/internal/server/state"
+	"github.com/edgesec-org/edgeca/internal/config"
+	"github.com/edgesec-org/edgeca/internal/policies"
+	"github.com/edgesec-org/edgeca/internal/protocols/grpc"
+	"github.com/edgesec-org/edgeca/internal/state"
 	"github.com/spf13/cobra"
 )
 
 var policy, defaultConfig, tppToken, tppURL, tppZone, caCert, caKey, serverTlsCertDir string
 var tlsPort int
-var useSDS bool
+var useSDS, usePassthrough bool
 
 func init() {
 
 	var serverCmd = &cobra.Command{
 		Use:   "server",
 		Short: "Run the EdgeCA server",
-		Long: `The EdgeCA server can run in three modes
+		Long: `The EdgeCA server can run in four modes
 	
 		Mode 1: Self-signed
 		-------------------
@@ -52,16 +52,26 @@ func init() {
 		In this mode, EdgeCA starts up, reads the CA certificate and key
 		from the provided PEM files and optionally reads in an OPA policy file 
 			
-		Mode 3: Use TPP
+		Mode 3: Get issuing certificate using TPP
 		-------------------------------
 		./edgeca server -t TPP-token
 		
 		EdgeCA gets an issuing certificate using the TPP token.
 		It reads in the policy and default configuration from the TPP server 
+
+		Mode 4: Use TPP to issue certificates
+		-------------------------------
+		./edgeca server -t TPP-token --passthrough
 	
-	Note: In all three modes, the server writes certificates to the location
-	specified by "tls-certs". These certificates are required by the edgeca client
-	for encryption and authentication.
+		In this mode, EdgeCA does not use an issuing certificate and issues
+		no certificates locally. Instead it passes all requestes back to the back-end
+		using TPP. 
+
+	
+	Note: The server uses mTLS to communicate with the edgeca CLI. It does so using 
+	client certificates written to the location specified by "tls-certs". 
+	If the CLI client is used on a different computer, then these certificates need to be
+	copied across for the client to use.
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
 
@@ -87,6 +97,7 @@ func init() {
 	serverCmd.Flags().IntVarP(&tlsPort, "port", "", tlsPort, "Port number to use for this server")
 
 	serverCmd.Flags().BoolVarP(&useSDS, "sds", "", false, "Enable Envoy SDS support (development use only)")
+	//	serverCmd.Flags().BoolVarP(&usePassthrough, "passthrough", "", false, "Don't use an issuing certificate or issue certitificates locally. Pass all requests directly to TPP. ")
 
 }
 
@@ -95,8 +106,13 @@ func startEdgeCAServer() {
 	fmt.Println("EdgeCA server " + edgeca.Version + " starting up")
 	log.SetPrefix("edgeCA: ")
 
-	if tppToken != "" || tppURL != "" || tppZone != "" {
-		mode3UseTPP()
+	if tppToken != "" || tppURL != "" || tppZone != "" || usePassthrough {
+		if usePassthrough {
+			mode4UsePassthrough()
+		} else {
+			mode3UseTPP()
+		}
+
 	} else if caCert != "" || caKey != "" {
 		mode2BYOCert()
 
@@ -104,7 +120,7 @@ func startEdgeCAServer() {
 		mode1SelfCert()
 	}
 
-	server.StartGrpcServer(tlsPort, useSDS)
+	grpc.StartGrpcServer(tlsPort, useSDS)
 
 }
 
@@ -148,6 +164,28 @@ func mode3UseTPP() {
 
 	err := state.InitStateUsingTPP(tppURL, tppZone, tppToken, serverTlsCertDir)
 
+	if err != nil {
+		log.Fatalf("TPPLogin error: %v", err.Error())
+	} else {
+		log.Printf("TPPLogin OK")
+	}
+}
+
+func mode4UsePassthrough() {
+	if caCert != "" || caKey != "" {
+		log.Fatalln("Mode 4 (Using TPP/Passthrough). Error: If TPP-Token is specified, then CA-Cert and CA-Key can't also be specified. ")
+	}
+	if tppToken == "" || tppURL == "" || tppZone == "" {
+		log.Fatalln("Mode 4 (Using TPP/Passthrough). Error: TPP Token, URL and Zone all need to be specified.")
+	}
+
+	if policy != "" || defaultConfig != "" {
+		log.Println("Mode 4 (Using TPP/Passthrough). Warning: If TPP-Token is specified, policy file settings are ignored.")
+	}
+
+	log.Println("Mode 4 (Using TPP/Passthrough). Connecting using specified TPP token, URL and Zone")
+
+	err := state.InitStateUsingTPPPassthrough(tppURL, tppZone, tppToken, serverTlsCertDir)
 	if err != nil {
 		log.Fatalf("TPPLogin error: %v", err.Error())
 	} else {
