@@ -1,5 +1,6 @@
 export GOPATH="$HOME/go/"
 export PATH=$PATH:$GOPATH/bin
+cd ../internal/grpc
 
 go get google.golang.org/protobuf/cmd/protoc-gen-go
 go install google.golang.org/protobuf/cmd/protoc-gen-go
