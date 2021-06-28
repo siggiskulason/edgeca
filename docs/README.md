@@ -20,6 +20,31 @@ snap install edgeca
 ```
 See the [EdgeCA Snap install](../snap) readme file for more information. **Note** that if you are using snaps, then **edgecad** runs as a background service and you need not start it manually.
 
+### Installing using docker
+
+To get the edgeca docker image do
+
+```
+docker pull edgesec/edgeca
+```
+
+To run a sample server locally in a docker container, you can do
+
+```
+docker run -p 0.0.0.0:50025:50025 -h localhost -v ~/.edgeca/certs:/shared-secrets edgesec/edgeca server -d /shared-secrets
+```
+
+Note that this tells edgeca to write the secrets required for the secure gRPC connection to a /shared-secrets directory, which is redirected to
+your local ~/.edgeca/certs directory. It also sets the host name to "localhost", so that the generated TLS certificate for gRPC will be issued for "localhost"
+
+
+You can then run the edgeca client locally. Set it to connect to "localhost". It will pick up the TLS gRPC certificates from the default ~/.edgeca/certs location
+
+```
+./bin/edgeca gencert -i csrfile --server localhost
+```
+
+
 
 ## Compiling edgeca
 
