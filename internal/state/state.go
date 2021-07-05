@@ -26,7 +26,7 @@ import (
 
 	certs "github.com/edgesec-org/edgeca/internal/issuer"
 	"github.com/edgesec-org/edgeca/internal/policies"
-	"github.com/edgesec-org/edgeca/internal/protocols/tpp"
+	"github.com/edgesec-org/edgeca/internal/server/tpp"
 )
 
 type state struct {

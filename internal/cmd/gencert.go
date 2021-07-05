@@ -26,7 +26,7 @@ import (
 
 	"github.com/edgesec-org/edgeca/internal/config"
 	certs "github.com/edgesec-org/edgeca/internal/issuer"
-	internalgrpc "github.com/edgesec-org/edgeca/internal/protocols/grpc"
+	internalgrpc "github.com/edgesec-org/edgeca/internal/server/grpcimpl"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

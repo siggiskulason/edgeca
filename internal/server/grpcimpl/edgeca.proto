@@ -12,10 +12,39 @@
  * the License.
  *
  *******************************************************************************/
+ 
+ syntax = "proto3";
 
-package graphql
+option go_package = "github.com/edgesec-org/edgeca/internal/server/grpcimpl";
 
-//StartGraphqlServer starts up the graphql server
-func StartGraphqlServer(port int) {
+package edgeca;
+
+// The CA service definition.
+service CA {
+  rpc RequestPolicy (PolicyRequest) returns (PolicyReply) {}
+  rpc GenerateCertificate (CertificateRequest) returns (CertificateReply) {} 
 
 }
+
+
+message PolicyReply {
+  string policy = 1;
+	string defaultOrganization = 2;
+  string defaultOrganizationalUnit = 3;
+	string defaultProvince = 4;
+	string defaultLocality = 5;
+	string defaultCountry = 6;
+}
+
+message CertificateRequest {
+  string csr = 1;
+  string authToken = 2;
+}
+
+message CertificateReply {
+  string certificate = 1;
+  string privateKey = 2;
+}
+
+message PolicyRequest {} 
+
