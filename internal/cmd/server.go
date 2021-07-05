@@ -22,13 +22,13 @@ import (
 	"github.com/edgesec-org/edgeca"
 	"github.com/edgesec-org/edgeca/internal/config"
 	"github.com/edgesec-org/edgeca/internal/policies"
-	"github.com/edgesec-org/edgeca/internal/protocols/grpc"
+	"github.com/edgesec-org/edgeca/internal/server"
 	"github.com/edgesec-org/edgeca/internal/state"
 	"github.com/spf13/cobra"
 )
 
 var policy, defaultConfig, tppToken, tppURL, tppZone, caCert, caKey, serverTlsCertDir string
-var tlsPort int
+var tlsPort, graphQLport int
 var useSDS, usePassthrough bool
 
 func init() {
@@ -99,6 +99,8 @@ func init() {
 	serverCmd.Flags().BoolVarP(&useSDS, "sds", "", false, "Enable Envoy SDS support (development use only)")
 	//	serverCmd.Flags().BoolVarP(&usePassthrough, "passthrough", "", false, "Don't use an issuing certificate or issue certitificates locally. Pass all requests directly to TPP. ")
 
+	serverCmd.Flags().IntVarP(&graphQLport, "graphql", "", 0, "Start a GraphQL server on the specified port")
+
 }
 
 // Execute the commands
@@ -120,7 +122,11 @@ func startEdgeCAServer() {
 		mode1SelfCert()
 	}
 
-	grpc.StartGrpcServer(tlsPort, useSDS)
+	if graphQLport > 0 {
+		server.StartGraphqlServer(graphQLport)
+	} else {
+		server.StartGrpcServer(tlsPort, useSDS)
+	}
 
 }
 

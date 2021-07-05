@@ -19,7 +19,7 @@
 // 	protoc        v3.14.0
 // source: edgeca.proto
 
-package grpc
+package grpcimpl
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

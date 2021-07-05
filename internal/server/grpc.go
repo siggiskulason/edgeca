@@ -13,7 +13,7 @@
  *
  *******************************************************************************/
 
-package grpc
+package server
 
 import (
 	"context"
@@ -23,8 +23,9 @@ import (
 	"net"
 	"strconv"
 
-	certs "github.com/edgesec-org/edgeca/internal/issuer"
-	"github.com/edgesec-org/edgeca/internal/protocols/sds"
+	"github.com/edgesec-org/edgeca/internal/issuer"
+	"github.com/edgesec-org/edgeca/internal/server/grpcimpl"
+	"github.com/edgesec-org/edgeca/internal/server/sds"
 	"github.com/edgesec-org/edgeca/internal/state"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -34,17 +35,17 @@ import (
 
 // server is used to implement grpc.CAServer.
 type server struct {
-	UnimplementedCAServer
+	grpcimpl.UnimplementedCAServer
 }
 
-func (s *server) RequestPolicy(ctx context.Context, request *PolicyRequest) (*PolicyReply, error) {
+func (s *server) RequestPolicy(ctx context.Context, request *grpcimpl.PolicyRequest) (*grpcimpl.PolicyReply, error) {
 	log.Println("Got request for Policy Information")
 
 	policyStr := string(policies.GetCurrentPolicy())
 	defaultO, defaultOU, defaultC, defaultST, defaultL := policies.GetDefaultValues()
 
 	log.Println("DefaultOrganization:", defaultO)
-	return &PolicyReply{
+	return &grpcimpl.PolicyReply{
 		Policy:                    policyStr,
 		DefaultOrganization:       defaultO,
 		DefaultOrganizationalUnit: defaultOU,
@@ -55,18 +56,19 @@ func (s *server) RequestPolicy(ctx context.Context, request *PolicyRequest) (*Po
 
 }
 
-func (s *server) GenerateCertificate(ctx context.Context, request *CertificateRequest) (*CertificateReply, error) {
+func (s *server) GenerateCertificate(ctx context.Context, request *grpcimpl.CertificateRequest) (*grpcimpl.CertificateReply, error) {
 
 	csr := request.GetCsr()
-	log.Println("Got request for Certificate")
+
 	err := policies.CheckPolicy(csr)
 	if err != nil {
 		log.Printf("Policy result: %v", err)
 		return nil, err
 	}
-	subject := certs.GetSubjectFromCSR(csr)
-	pemCertificate, pemPrivateKey, err := certs.GeneratePemCertificate(subject, state.GetSubCACert(), state.GetSubCAKey())
-	return &CertificateReply{Certificate: /*string(state.GetSubCAPEMCert()) +*/ string(pemCertificate), PrivateKey: string(pemPrivateKey)}, err
+
+	pemCertificate, pemPrivateKey, _, err := issuer.GenerateCertificateUsingCSR(csr, state.GetSubCACert(), state.GetSubCAKey())
+
+	return &grpcimpl.CertificateReply{Certificate: /*string(state.GetSubCAPEMCert()) +*/ string(pemCertificate), PrivateKey: string(pemPrivateKey)}, err
 }
 
 //StartGrpcServer starts up the gRPC server
@@ -107,7 +109,7 @@ func StartGrpcServer(port int, useSDS bool) {
 
 	log.Println("Starting gRPC CA server on port", port)
 
-	RegisterCAServer(s, &server{})
+	grpcimpl.RegisterCAServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

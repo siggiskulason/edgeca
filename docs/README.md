@@ -267,3 +267,42 @@ edgeca gencert -i test.csr -o test.cert -k test.key
 2021/01/19 17:09:47 Wrote Certificate to test.cert
 2021/01/19 17:09:47 Wrote key to test.key
 ```
+
+
+### Using GraphQL
+
+EdgeCA includes basic support for GraphQL, using a built-in GraphQL server to provide machine identities via GraphQL. To use, start EdgeCA server with the `--graphql` argument, specifying the port to use
+
+```
+edgeca server --graphql 8888
+````
+
+This will start up EdgeCA listening for GraphQL requests on port 8888. EdgeCA also starts up a built-in playground for exploring the GraphQL API. 
+
+To use, go to [http://localhost:8888/](http://localhost:8888/)
+
+You can then enter a createCertificate mutation to create a certificate:
+
+```
+mutation {
+  createCertificate(input: {commonName: "localhost",organization:"ACME inc"}){
+    certificate,
+    key,
+    expiry
+  }
+}
+```
+
+The commonName argument is required, but optional arguments are `organization`, `organizationalUnit`, `locality`, `province` and  `country` 
+
+To use the EdgeCA GraphQL server as a remote schema with Hashura, 
+
+1. Start up EdgeCA as above
+2. Install [Hasura](https://hasura.io/) locally using Docker Compose
+4. Go to "Remote Schema"
+5. Click "Add"
+5. Create a new remote schema with the following values. Then click "Add Remote Schema" to confirm 
+  - Remote Schema name: edgeca
+  - GraphQL server URL: http://`your-ip-address`:8888/query   
+
+6. In the GraphiQL query windows enter the mutation as above and run.
