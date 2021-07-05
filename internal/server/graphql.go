@@ -12,39 +12,28 @@
  * the License.
  *
  *******************************************************************************/
- 
- syntax = "proto3";
 
-option go_package = "github.com/edgesec-org/edgeca/grpc";
+package server
 
-package edgeca;
+import (
+	"log"
+	"net/http"
+	"strconv"
 
-// The CA service definition.
-service CA {
-  rpc RequestPolicy (PolicyRequest) returns (PolicyReply) {}
-  rpc GenerateCertificate (CertificateRequest) returns (CertificateReply) {} 
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/edgesec-org/edgeca/internal/server/graphqlimpl/graph"
+	"github.com/edgesec-org/edgeca/internal/server/graphqlimpl/graph/generated"
+)
 
+//StartGraphqlServer starts up the graphql server
+func StartGraphqlServer(port int) {
+	sPort := strconv.Itoa(port)
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
+
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", sPort)
+	log.Fatal(http.ListenAndServe(":"+sPort, nil))
 }
-
-
-message PolicyReply {
-  string policy = 1;
-	string defaultOrganization = 2;
-  string defaultOrganizationalUnit = 3;
-	string defaultProvince = 4;
-	string defaultLocality = 5;
-	string defaultCountry = 6;
-}
-
-message CertificateRequest {
-  string csr = 1;
-  string authToken = 2;
-}
-
-message CertificateReply {
-  string certificate = 1;
-  string privateKey = 2;
-}
-
-message PolicyRequest {} 
-

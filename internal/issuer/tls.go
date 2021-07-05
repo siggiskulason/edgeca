@@ -36,7 +36,7 @@ func GenerateTLSServerCert(server string, parentCert *x509.Certificate, parentKe
 		Country:            []string{},
 	}
 
-	pemCert, pemKey, err := GeneratePemCertificate(subject, parentCert, parentKey)
+	pemCert, pemKey, _, err := GeneratePemCertificate(subject, parentCert, parentKey)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func GenerateTLSClientCert(server string, parentCert *x509.Certificate, parentKe
 		Country:            []string{},
 	}
 
-	pemCert, pemKey, err := GeneratePemCertificate(subject, parentCert, parentKey)
+	pemCert, pemKey, _, err := GeneratePemCertificate(subject, parentCert, parentKey)
 	if err != nil {
 		return nil, err
 	}

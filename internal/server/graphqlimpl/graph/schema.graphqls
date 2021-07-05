@@ -1,0 +1,26 @@
+# EdgeCA GraphQL schema 
+
+type Certificate {
+  certificate: String!
+  key: String!
+  expiry: String!
+}
+
+type Query {
+  certificate: [Certificate!]!
+}
+
+
+input NewCertificate {
+  commonName: String!
+  organization: String
+	organizationalUnit: String
+	locality: String
+	province: String
+	country: String
+  
+}
+
+type Mutation {
+  createCertificate(input: NewCertificate!): Certificate!
+}
